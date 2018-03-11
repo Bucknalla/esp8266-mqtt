@@ -74,19 +74,19 @@ void callback(char* topic, byte* payload, unsigned int length) {
   Serial.println();
 
   // Switch on the LED if an 1 was received as first character
-  if(strcmp(topic,"liv/set/LivingRoomLamp/STATE")==0){
+  if(strcmp(topic,"liv/set/LivingRoomCornerLamp/STATE")==0){
       if ((char)payload[0] == '1') {
         digitalWrite(12, HIGH);   // Turn the LED on (Note that LOW is the voltage level
-        client.publish("liv/status/LivingRoomLamp/STATE", "1");
+        client.publish("liv/status/LivingRoomCornerLamp/STATE", "1");
         // but actually the LED is on; this is because
         // it is active low on the ESP-01)
       } else {
         digitalWrite(12, LOW);  // Turn the LED off by making the voltage HIGH
-        client.publish("liv/status/LivingRoomLamp/STATE", "0");
+        client.publish("liv/status/LivingRoomCornerLamp/STATE", "0");
       }
   }
 
-  if(strcmp(topic,"liv/identify/Lamp")==0){
+  if(strcmp(topic,"liv/identify/LivingRoomCornerLamp")==0){
       if ((char)payload[0] == '1') {
         for(int i=0;i++;i>=5){
           digitalWrite(13, LOW); 
@@ -108,16 +108,16 @@ void reconnect() {
   while (!client.connected()) {
     Serial.print("Attempting MQTT connection...");
     // Create client ID
-    String clientId = "Living Room Lamp";
+    String clientId = "Living Room Corner Lamp";
 
     // Attempt to connect
     if (client.connect(clientId.c_str())) {
       Serial.println("connected");
       // Once connected, publish an announcement...
-      client.publish("liv/status/LivingRoomLamp/STATE", "0");
+      client.publish("liv/status/LivingRoomCornerLamp/STATE", "0");
       // ... and resubscribe
-      client.subscribe("liv/set/LivingRoomLamp/STATE");
-      client.subscribe("liv/identify/Lamp");
+      client.subscribe("liv/set/LivingRoomCornerLamp/STATE");
+      client.subscribe("liv/identify/LivingRoomCornerLamp");
 
     } else {
       Serial.print("failed, rc=");
